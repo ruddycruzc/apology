@@ -56,24 +56,40 @@ function loadPageStyles(cssPath) {
     document.head.appendChild(stylesheet);
   });
 }
+
 function animateCurrentScreenOut() {
-    return new Promise((resolve) => {
-        const currentScreen = appContent.querySelector(".screen.active");
+  return new Promise((resolve) => {
+    const currentScreen = appContent.querySelector(".screen.active");
 
-        if (!currentScreen) {
-            resolve();
-            return;
-        }
+    if (!currentScreen) {
+      resolve();
+      return;
+    }
 
-        currentScreen.addEventListener("animationend", (event) => {
-            if (event.animationName === "screenExit") {
-                resolve();
-            }
-        }, { once: true });
+    function handleAnimationEnd(event) {
+      // Only listen to the screen's own exit animation
+      if (
+        event.target === currentScreen &&
+        event.animationName === "screenExit"
+      ) {
+        currentScreen.removeEventListener(
+          "animationend",
+          handleAnimationEnd
+        );
 
-        currentScreen.classList.add("is-leaving");
-    });
+        resolve();
+      }
+    }
+
+    currentScreen.addEventListener(
+      "animationend",
+      handleAnimationEnd
+    );
+
+    currentScreen.classList.add("is-leaving");
+  });
 }
+
 /* ========================================
    3. LOAD PAGE CONTENT
 ======================================== */
@@ -134,25 +150,32 @@ async function navigateTo(pageName) {
 const openLetterButton = document.getElementById("open-letter");
 
 openLetterButton.addEventListener("click", async () => {
-    const letterCard = document.querySelector(".letter-card");
+  const letterCard = document.querySelector(".letter-card");
 
-    if (!letterCard || openLetterButton.disabled) return;
+  if (!letterCard || openLetterButton.disabled) return;
 
-    // Prevent multiple clicks
-    openLetterButton.disabled = true;
+  // Prevent multiple clicks
+  openLetterButton.disabled = true;
 
-    // Start envelope animation
-    letterCard.classList.add("is-opening");
+  // Start envelope animation
+  letterCard.classList.add("is-opening");
 
-    // Wait for the animation to finish
-await new Promise((resolve) => {
-    letterCard.addEventListener("animationend", (event) => {
-        if (event.animationName === "letterCardOpen") {
-            resolve();
-        }
-    }, { once: true });
-});
+  // Wait for the animation to finish
+  await new Promise((resolve) => {
+    const handleAnimationEnd = (event) => {
+      if (
+        event.target === letterCard &&
+        event.animationName === "letterCardOpen"
+      ) {
+        letterCard.removeEventListener("animationend", handleAnimationEnd);
 
-    // Navigate to the letter
-    navigateTo("apology");
+        resolve();
+      }
+    };
+
+    letterCard.addEventListener("animationend", handleAnimationEnd);
+  });
+
+  // Navigate to the letter
+  await navigateTo("apology");
 });
