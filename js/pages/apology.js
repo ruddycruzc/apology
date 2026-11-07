@@ -31,6 +31,11 @@ export function initPage({ navigateTo }) {
   function updateCarousel() {
     carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
 
+    // Update visible slide animation
+    slides.forEach((slide, index) => {
+      slide.classList.toggle("is-visible", index === currentSlide);
+    });
+
     indicators.forEach((indicator, index) => {
       indicator.classList.toggle("active", index === currentSlide);
 
@@ -43,14 +48,14 @@ export function initPage({ navigateTo }) {
 
     slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
 
-prevButton.disabled = currentSlide === 0;
+    prevButton.disabled = currentSlide === 0;
 
-// Detectar si estamos en la última diapositiva
-const isLastSlide = currentSlide === totalSlides - 1;
+    // Detectar si estamos en la última diapositiva
+    const isLastSlide = currentSlide === totalSlides - 1;
 
-// Alternar los botones
-nextButton.hidden = isLastSlide;
-continueButton.hidden = !isLastSlide;
+    // Alternar los botones
+    nextButton.hidden = isLastSlide;
+    continueButton.hidden = !isLastSlide;
   }
 
   /* ========================================
