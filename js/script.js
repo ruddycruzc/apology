@@ -57,21 +57,22 @@ function loadPageStyles(cssPath) {
   });
 }
 function animateCurrentScreenOut() {
-  return new Promise((resolve) => {
-    const currentScreen = appContent.querySelector(".screen.active");
+    return new Promise((resolve) => {
+        const currentScreen = appContent.querySelector(".screen.active");
 
-    // Si no hay pantalla activa, continuamos directamente.
-    if (!currentScreen) {
-      resolve();
-      return;
-    }
+        if (!currentScreen) {
+            resolve();
+            return;
+        }
 
-    currentScreen.addEventListener("animationend", resolve, {
-      once: true,
+        currentScreen.addEventListener("animationend", (event) => {
+            if (event.animationName === "screenExit") {
+                resolve();
+            }
+        }, { once: true });
+
+        currentScreen.classList.add("is-leaving");
     });
-
-    currentScreen.classList.add("is-leaving");
-  });
 }
 /* ========================================
    3. LOAD PAGE CONTENT
@@ -132,6 +133,26 @@ async function navigateTo(pageName) {
 
 const openLetterButton = document.getElementById("open-letter");
 
-openLetterButton.addEventListener("click", () => {
-  navigateTo("apology");
+openLetterButton.addEventListener("click", async () => {
+    const letterCard = document.querySelector(".letter-card");
+
+    if (!letterCard || openLetterButton.disabled) return;
+
+    // Prevent multiple clicks
+    openLetterButton.disabled = true;
+
+    // Start envelope animation
+    letterCard.classList.add("is-opening");
+
+    // Wait for the animation to finish
+await new Promise((resolve) => {
+    letterCard.addEventListener("animationend", (event) => {
+        if (event.animationName === "letterCardOpen") {
+            resolve();
+        }
+    }, { once: true });
+});
+
+    // Navigate to the letter
+    navigateTo("apology");
 });
