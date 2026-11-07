@@ -270,6 +270,47 @@
         font-size: 0.55rem;
         letter-spacing: 0.5px;
     }
+     .flight-path {
+        max-width: 280px;
+        height: 60px;
+        margin-bottom: 1rem;
+    }
+
+    .flight-path::before {
+        left: 12%;
+        right: 12%;
+    }
+
+    .flight-path .surprise-icon {
+        font-size: 1.8rem;
+        animation: airplaneFlightMobile 5s ease-in-out infinite;
+    }
+
+    @keyframes airplaneFlightMobile {
+        0% {
+            left: 10%;
+            opacity: 0;
+            transform: translateY(-50%) rotate(-4deg);
+        }
+
+        12% {
+            opacity: 1;
+        }
+
+        50% {
+            transform: translateY(calc(-50% - 4px)) rotate(2deg);
+        }
+
+        88% {
+            opacity: 1;
+        }
+
+        100% {
+            left: 78%;
+            opacity: 0;
+            transform: translateY(-50%) rotate(4deg);
+        }
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
