@@ -36,6 +36,84 @@
     font-size: 2.8rem;
 }
 
+/* ========================================
+   AIRPLANE ANIMATION
+======================================== */
+
+.flight-path {
+    position: relative;
+
+    width: 100%;
+    max-width: 420px;
+    height: 75px;
+
+    margin: 0 auto 1.2rem;
+    overflow: hidden;
+}
+
+/* Dotted flight path */
+
+.flight-path::before {
+    content: "";
+
+    position: absolute;
+    top: 50%;
+    left: 8%;
+    right: 8%;
+
+    border-top: 2px dotted var(--color-primary);
+    opacity: 0.7;
+}
+
+/* Airplane */
+
+.flight-path .surprise-icon {
+    position: absolute;
+    top: 50%;
+    left: 5%;
+
+    margin: 0;
+
+    font-size: 2.2rem;
+
+    transform: translateY(-50%);
+    animation: airplaneFlight 6s ease-in-out infinite;
+}
+
+@keyframes airplaneFlight {
+    0% {
+        left: 5%;
+        opacity: 0;
+        transform: translateY(-50%) rotate(-8deg);
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    25% {
+        transform: translateY(calc(-50% - 9px)) rotate(-3deg);
+    }
+
+    50% {
+        transform: translateY(calc(-50% + 5px)) rotate(4deg);
+    }
+
+    75% {
+        transform: translateY(calc(-50% - 7px)) rotate(-3deg);
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        left: 85%;
+        opacity: 0;
+        transform: translateY(-50%) rotate(8deg);
+    }
+}
+
 .surprise-content h1 {
     margin-bottom: 1rem;
     font-size: 2.2rem;
@@ -191,5 +269,14 @@
     .countdown-unit small {
         font-size: 0.55rem;
         letter-spacing: 0.5px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .flight-path .surprise-icon {
+        animation: none;
+        left: 50%;
+        opacity: 1;
+        transform: translate(-50%, -50%);
     }
 }
