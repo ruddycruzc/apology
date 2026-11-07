@@ -392,3 +392,23 @@ p {
         transition-duration: 0.01ms !important;
     }
 }
+
+/* ========================================
+   ENVELOPE ANIMATION
+======================================== */
+
+.envelope-icon {
+    font-size: 2.7rem;
+    animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
