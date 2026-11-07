@@ -1,4 +1,3 @@
-
 /* ========================================
    1. APP CONFIGURATION
 ======================================== */
@@ -6,90 +5,85 @@
 const appContent = document.getElementById("app-content");
 
 const pages = {
-    apology: {
-        html: "../pages/apology.html",
-        css: "../css/pages/apology.css",
-        js: "../js/pages/apology.js"
-    }
+  apology: {
+    html: "../pages/apology.html",
+    css: "../css/pages/apology.css",
+    js: "../js/pages/apology.js",
+  },
+  reflection: {
+    html: "../pages/reflection.html",
+    css: "../css/pages/reflection.css",
+    js: "../js/pages/reflection.js",
+  },
 };
-
 
 /* ========================================
    2. LOAD PAGE STYLES
 ======================================== */
 
 function loadPageStyles(cssPath) {
+  return new Promise((resolve, reject) => {
+    // Remove previous page styles
+    const previousStyles = document.getElementById("page-stylesheet");
 
-    return new Promise((resolve, reject) => {
+    if (previousStyles) {
+      previousStyles.remove();
+    }
 
-        // Remove previous page styles
-        const previousStyles = document.getElementById("page-stylesheet");
+    // Create stylesheet link
+    const stylesheet = document.createElement("link");
 
-        if (previousStyles) {
-            previousStyles.remove();
-        }
+    stylesheet.id = "page-stylesheet";
+    stylesheet.rel = "stylesheet";
+    stylesheet.href = cssPath;
 
-        // Create stylesheet link
-        const stylesheet = document.createElement("link");
+    stylesheet.onload = resolve;
 
-        stylesheet.id = "page-stylesheet";
-        stylesheet.rel = "stylesheet";
-        stylesheet.href = cssPath;
+    stylesheet.onerror = () => {
+      reject(new Error(`Could not load stylesheet: ${cssPath}`));
+    };
 
-        stylesheet.onload = resolve;
-
-        stylesheet.onerror = () => {
-            reject(new Error(`Could not load stylesheet: ${cssPath}`));
-        };
-
-        document.head.appendChild(stylesheet);
-
-    });
-
+    document.head.appendChild(stylesheet);
+  });
 }
-
 
 /* ========================================
    3. LOAD PAGE CONTENT
 ======================================== */
 
 async function navigateTo(pageName) {
+  const page = pages[pageName];
 
-    const page = pages[pageName];
+  if (!page) {
+    console.error(`Page not found: ${pageName}`);
+    return;
+  }
 
-    if (!page) {
-        console.error(`Page not found: ${pageName}`);
-        return;
+  try {
+    // Load HTML
+    const response = await fetch(page.html);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
     }
 
-    try {
+    const html = await response.text();
 
-        // Load HTML
-        const response = await fetch(page.html);
+    // Load page-specific CSS
+    await loadPageStyles(page.css);
 
-        if (!response.ok) {
-            throw new Error(`HTTP error: ${response.status}`);
-        }
+    // Insert HTML into the main container
+    appContent.innerHTML = html;
 
-        const html = await response.text();
+    // Load page-specific JavaScript
+    const pageModule = await import(page.js);
 
-        // Load page-specific CSS
-        await loadPageStyles(page.css);
+    // Initialize the page
+    pageModule.initPage({ navigateTo });
+  } catch (error) {
+    console.error("Error loading page:", error);
 
-        // Insert HTML into the main container
-        appContent.innerHTML = html;
-
-        // Load page-specific JavaScript
-        const pageModule = await import(page.js);
-
-        // Initialize the page
-        pageModule.initPage({ navigateTo });
-
-    } catch (error) {
-
-        console.error("Error loading page:", error);
-
-        appContent.innerHTML = `
+    appContent.innerHTML = `
             <section class="screen active">
                 <div class="letter-card">
                     <h1>Ups...</h1>
@@ -100,11 +94,8 @@ async function navigateTo(pageName) {
                 </div>
             </section>
         `;
-
-    }
-
+  }
 }
-
 
 /* ========================================
    4. INITIAL NAVIGATION
@@ -113,5 +104,5 @@ async function navigateTo(pageName) {
 const openLetterButton = document.getElementById("open-letter");
 
 openLetterButton.addEventListener("click", () => {
-    navigateTo("apology");
+  navigateTo("apology");
 });

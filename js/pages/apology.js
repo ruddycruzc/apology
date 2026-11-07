@@ -1,122 +1,107 @@
-
 /* ========================================
    APOLOGY CAROUSEL
 ======================================== */
 
 export function initPage({ navigateTo }) {
+  // Elements
+  const carouselTrack = document.getElementById("carousel-track");
+  const slides = document.querySelectorAll(".carousel-slide");
 
-    // Elements
-    const carouselTrack = document.getElementById("carousel-track");
-    const slides = document.querySelectorAll(".carousel-slide");
+  const prevButton = document.getElementById("prev-slide");
+  const nextButton = document.getElementById("next-slide");
 
-    const prevButton = document.getElementById("prev-slide");
-    const nextButton = document.getElementById("next-slide");
+  const indicators = document.querySelectorAll(".carousel-dot");
+  const slideCounter = document.getElementById("slide-counter");
 
-    const indicators = document.querySelectorAll(".carousel-dot");
-    const slideCounter = document.getElementById("slide-counter");
+  const continueButton = document.getElementById("continue-reflection");
 
-    // State
-    let currentSlide = 0;
-    const totalSlides = slides.length;
+  if (continueButton) {
+    continueButton.addEventListener("click", () => {
+      navigateTo("reflection");
+    });
+  }
+  // State
+  let currentSlide = 0;
+  const totalSlides = slides.length;
 
-
-    /* ========================================
+  /* ========================================
        UPDATE CAROUSEL
     ======================================== */
 
-    function updateCarousel() {
+  function updateCarousel() {
+    carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
 
-        carouselTrack.style.transform =
-            `translateX(-${currentSlide * 100}%)`;
+    indicators.forEach((indicator, index) => {
+      indicator.classList.toggle("active", index === currentSlide);
 
-        indicators.forEach((indicator, index) => {
+      if (index === currentSlide) {
+        indicator.setAttribute("aria-current", "step");
+      } else {
+        indicator.removeAttribute("aria-current");
+      }
+    });
 
-            indicator.classList.toggle(
-                "active",
-                index === currentSlide
-            );
+    slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
 
-            if (index === currentSlide) {
-                indicator.setAttribute("aria-current", "step");
-            } else {
-                indicator.removeAttribute("aria-current");
-            }
+prevButton.disabled = currentSlide === 0;
 
-        });
+// Detectar si estamos en la última diapositiva
+const isLastSlide = currentSlide === totalSlides - 1;
 
-        slideCounter.textContent =
-            `${currentSlide + 1} / ${totalSlides}`;
+// Alternar los botones
+nextButton.hidden = isLastSlide;
+continueButton.hidden = !isLastSlide;
+  }
 
-        prevButton.disabled = currentSlide === 0;
-        nextButton.disabled = currentSlide === totalSlides - 1;
-
-    }
-
-
-    /* ========================================
+  /* ========================================
        NAVIGATION
     ======================================== */
 
-    function nextSlide() {
-
-        if (currentSlide < totalSlides - 1) {
-            currentSlide++;
-            updateCarousel();
-        }
-
+  function nextSlide() {
+    if (currentSlide < totalSlides - 1) {
+      currentSlide++;
+      updateCarousel();
     }
+  }
 
-    function prevSlide() {
-
-        if (currentSlide > 0) {
-            currentSlide--;
-            updateCarousel();
-        }
-
+  function prevSlide() {
+    if (currentSlide > 0) {
+      currentSlide--;
+      updateCarousel();
     }
+  }
 
+  nextButton.addEventListener("click", nextSlide);
+  prevButton.addEventListener("click", prevSlide);
 
-    nextButton.addEventListener("click", nextSlide);
-    prevButton.addEventListener("click", prevSlide);
-
-
-    /* ========================================
+  /* ========================================
        INDICATORS
     ======================================== */
 
-    indicators.forEach((indicator) => {
+  indicators.forEach((indicator) => {
+    indicator.addEventListener("click", () => {
+      currentSlide = Number(indicator.dataset.slide);
 
-        indicator.addEventListener("click", () => {
-
-            currentSlide = Number(indicator.dataset.slide);
-
-            updateCarousel();
-
-        });
-
+      updateCarousel();
     });
+  });
 
-
-    /* ========================================
+  /* ========================================
        KEYBOARD NAVIGATION
     ======================================== */
 
-    function handleKeyboard(event) {
-
-        if (event.key === "ArrowRight") {
-            nextSlide();
-        }
-
-        if (event.key === "ArrowLeft") {
-            prevSlide();
-        }
-
+  function handleKeyboard(event) {
+    if (event.key === "ArrowRight") {
+      nextSlide();
     }
 
-    document.addEventListener("keydown", handleKeyboard);
+    if (event.key === "ArrowLeft") {
+      prevSlide();
+    }
+  }
 
+  document.addEventListener("keydown", handleKeyboard);
 
-    // Initial state
-    updateCarousel();
-
+  // Initial state
+  updateCarousel();
 }
