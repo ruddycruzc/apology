@@ -51,7 +51,93 @@
     line-height: 1.8;
 }
 
+/* ========================================
+   QUESTION ANIMATIONS
+======================================== */
 
+.question-card.is-visible .question-heart {
+    animation: questionElementEnter 0.5s ease both;
+}
+
+.question-card.is-visible .letter-label {
+    animation: questionElementEnter 0.5s 0.05s ease both;
+}
+
+.question-card.is-visible .question-content h1 {
+    animation: questionElementEnter 0.5s 0.12s ease both;
+}
+
+.question-card.is-visible .question-content h2 {
+    animation: questionElementEnter 0.5s 0.2s ease both;
+}
+
+.question-card.is-visible .question-content p {
+    animation: questionElementEnter 0.5s 0.28s ease both;
+}
+
+.question-card.is-visible #yes-button {
+    animation: questionElementEnter 0.5s 0.38s ease both;
+}
+
+.question-card.is-visible #no-button {
+    animation: questionElementEnter 0.5s 0.46s ease both;
+}
+
+/* Goodbye animation */
+
+.goodbye-card.is-visible {
+    animation: goodbyeCardEnter 0.65s ease both;
+}
+
+.goodbye-card.is-visible .question-heart {
+    animation: questionElementEnter 0.5s 0.1s ease both;
+}
+
+.goodbye-card.is-visible .letter-label {
+    animation: questionElementEnter 0.5s 0.16s ease both;
+}
+
+.goodbye-card.is-visible h1 {
+    animation: questionElementEnter 0.5s 0.23s ease both;
+}
+
+.goodbye-card.is-visible p {
+    animation: questionElementEnter 0.5s 0.32s ease both;
+}
+
+.goodbye-card.is-visible .apology-signature {
+    animation: questionElementEnter 0.5s 0.42s ease both;
+}
+
+.goodbye-card.is-visible #restart-button {
+    animation: questionElementEnter 0.5s 0.52s ease both;
+}
+
+/* Keyframes */
+
+@keyframes questionElementEnter {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes goodbyeCardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
 /* ========================================
    QUESTION BUTTONS
 ======================================== */
@@ -142,5 +228,13 @@
 
     .question-actions .btn {
         min-width: 160px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .question-card,
+    .question-card *,
+    .goodbye-card,
+    .goodbye-card * {
+        animation: none !important;
     }
 }

@@ -1,124 +1,118 @@
 export function initPage({ navigateTo }) {
+  // Elements
+  const yesButton = document.getElementById("yes-button");
+  const noButton = document.getElementById("no-button");
 
-    // Elements
-    const yesButton = document.getElementById("yes-button");
-    const noButton = document.getElementById("no-button");
+  const questionCard = document.getElementById("question-card");
+  const goodbyeCard = document.getElementById("goodbye-card");
 
-    const questionCard = document.getElementById("question-card");
-    const goodbyeCard = document.getElementById("goodbye-card");
+  const restartButton = document.getElementById("restart-button");
 
-    const restartButton = document.getElementById("restart-button");
+  if (
+    !yesButton ||
+    !noButton ||
+    !questionCard ||
+    !goodbyeCard ||
+    !restartButton
+  ) {
+    console.error("Question page elements not found.");
+    return;
+  }
 
-    if (
-        !yesButton ||
-        !noButton ||
-        !questionCard ||
-        !goodbyeCard ||
-        !restartButton
-    ) {
-        console.error("Question page elements not found.");
-        return;
-    }
+  // State
+  let touchAttempts = 0;
+  const maxTouchEscapes = 2;
 
-    // State
-    let touchAttempts = 0;
-    const maxTouchEscapes = 2;
-
-    /* ========================================
+  /* ========================================
        YES BUTTON
     ======================================== */
 
-    yesButton.addEventListener("click", () => {
-        navigateTo("surprise");
-    });
+  yesButton.addEventListener("click", () => {
+    navigateTo("surprise");
+  });
 
-
-    /* ========================================
+  /* ========================================
        MOVE NO BUTTON
     ======================================== */
 
-    function moveNoButton() {
+  function moveNoButton() {
+    const buttonWidth = noButton.offsetWidth;
+    const buttonHeight = noButton.offsetHeight;
 
-        const buttonWidth = noButton.offsetWidth;
-        const buttonHeight = noButton.offsetHeight;
+    const padding = 16;
 
-        const padding = 16;
+    const maxX = window.innerWidth - buttonWidth - padding;
+    const maxY = window.innerHeight - buttonHeight - padding;
 
-        const maxX = window.innerWidth - buttonWidth - padding;
-        const maxY = window.innerHeight - buttonHeight - padding;
+    const minX = padding;
+    const minY = padding;
 
-        const minX = padding;
-        const minY = padding;
+    const randomX = minX + Math.random() * Math.max(0, maxX - minX);
 
-        const randomX =
-            minX + Math.random() * Math.max(0, maxX - minX);
+    const randomY = minY + Math.random() * Math.max(0, maxY - minY);
 
-        const randomY =
-            minY + Math.random() * Math.max(0, maxY - minY);
+    noButton.style.position = "fixed";
+    noButton.style.left = `${randomX}px`;
+    noButton.style.top = `${randomY}px`;
+    noButton.style.transform = "none";
+  }
 
-        noButton.style.position = "fixed";
-        noButton.style.left = `${randomX}px`;
-        noButton.style.top = `${randomY}px`;
-        noButton.style.transform = "none";
-    }
-
-
-    /* ========================================
+  /* ========================================
        DESKTOP INTERACTION
     ======================================== */
 
-    noButton.addEventListener("pointerenter", (event) => {
+  noButton.addEventListener("pointerenter", (event) => {
+    if (event.pointerType === "mouse") {
+      moveNoButton();
+    }
+  });
 
-        if (event.pointerType === "mouse") {
-            moveNoButton();
-        }
-
-    });
-
-
-    /* ========================================
+  /* ========================================
        MOBILE INTERACTION
     ======================================== */
 
-    noButton.addEventListener("pointerdown", (event) => {
+  noButton.addEventListener("pointerdown", (event) => {
+    if (event.pointerType === "touch" && touchAttempts < maxTouchEscapes) {
+      touchAttempts++;
 
-        if (event.pointerType === "touch" && touchAttempts < maxTouchEscapes) {
+      moveNoButton();
 
-            touchAttempts++;
+      // Prevent the click during the first two attempts
+      event.preventDefault();
+    }
+  });
 
-            moveNoButton();
-
-            // Prevent the click during the first two attempts
-            event.preventDefault();
-        }
-
-    });
-
-
-    /* ========================================
+  // Animate question content on entry
+  requestAnimationFrame(() => {
+    questionCard.classList.add("is-visible");
+  });
+  /* ========================================
        NO BUTTON: GOODBYE
     ======================================== */
 
-    noButton.addEventListener("click", () => {
+noButton.addEventListener("click", () => {
 
-        questionCard.hidden = true;
-        goodbyeCard.hidden = false;
+    questionCard.hidden = true;
+    goodbyeCard.hidden = false;
 
-        // Return the button to its normal position
-        noButton.style.position = "";
-        noButton.style.left = "";
-        noButton.style.top = "";
-        noButton.style.transform = "";
-
+    // Animate the goodbye message
+    requestAnimationFrame(() => {
+        goodbyeCard.classList.add("is-visible");
     });
 
+    // Return the button to its normal position
+    noButton.style.position = "";
+    noButton.style.left = "";
+    noButton.style.top = "";
+    noButton.style.transform = "";
 
-    /* ========================================
+});
+
+  /* ========================================
        RESTART EXPERIENCE
     ======================================== */
 
-    restartButton.addEventListener("click", () => {
-        window.location.reload();
-    });
-
+  restartButton.addEventListener("click", () => {
+    window.location.reload();
+  });
 }
