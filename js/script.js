@@ -56,7 +56,23 @@ function loadPageStyles(cssPath) {
     document.head.appendChild(stylesheet);
   });
 }
+function animateCurrentScreenOut() {
+  return new Promise((resolve) => {
+    const currentScreen = appContent.querySelector(".screen.active");
 
+    // Si no hay pantalla activa, continuamos directamente.
+    if (!currentScreen) {
+      resolve();
+      return;
+    }
+
+    currentScreen.addEventListener("animationend", resolve, {
+      once: true,
+    });
+
+    currentScreen.classList.add("is-leaving");
+  });
+}
 /* ========================================
    3. LOAD PAGE CONTENT
 ======================================== */
@@ -82,7 +98,10 @@ async function navigateTo(pageName) {
     // Load page-specific CSS
     await loadPageStyles(page.css);
 
-    // Insert HTML into the main container
+    // Animate current screen before replacing it
+    await animateCurrentScreenOut();
+
+    // Insert new HTML into the main container
     appContent.innerHTML = html;
 
     // Load page-specific JavaScript
