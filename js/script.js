@@ -20,6 +20,11 @@ const pages = {
     css: "../css/pages/question.css",
     js: "../js/pages/question.js",
   },
+  surprise: {
+    html: "../pages/surprise.html",
+    css: "../css/pages/surprise.css",
+    js: "../js/pages/surprise.js",
+  },
 };
 
 /* ========================================

@@ -7,12 +7,22 @@ export function initPage({ navigateTo }) {
     const questionCard = document.getElementById("question-card");
     const goodbyeCard = document.getElementById("goodbye-card");
 
-    const buttonContainer = document.getElementById("question-actions");
+    const restartButton = document.getElementById("restart-button");
 
-    if (!yesButton || !noButton || !questionCard || !goodbyeCard) {
+    if (
+        !yesButton ||
+        !noButton ||
+        !questionCard ||
+        !goodbyeCard ||
+        !restartButton
+    ) {
         console.error("Question page elements not found.");
         return;
     }
+
+    // State
+    let touchAttempts = 0;
+    const maxTouchEscapes = 2;
 
     /* ========================================
        YES BUTTON
@@ -22,30 +32,41 @@ export function initPage({ navigateTo }) {
         navigateTo("surprise");
     });
 
+
     /* ========================================
-       ESCAPE BUTTON
+       MOVE NO BUTTON
     ======================================== */
 
     function moveNoButton() {
 
-        const containerWidth = buttonContainer.clientWidth;
-        const containerHeight = buttonContainer.clientHeight;
-
         const buttonWidth = noButton.offsetWidth;
         const buttonHeight = noButton.offsetHeight;
 
-        const maxX = containerWidth - buttonWidth;
-        const maxY = containerHeight - buttonHeight;
+        const padding = 16;
 
-        const randomX = Math.random() * Math.max(0, maxX);
-        const randomY = Math.random() * Math.max(0, maxY);
+        const maxX = window.innerWidth - buttonWidth - padding;
+        const maxY = window.innerHeight - buttonHeight - padding;
 
+        const minX = padding;
+        const minY = padding;
+
+        const randomX =
+            minX + Math.random() * Math.max(0, maxX - minX);
+
+        const randomY =
+            minY + Math.random() * Math.max(0, maxY - minY);
+
+        noButton.style.position = "fixed";
         noButton.style.left = `${randomX}px`;
         noButton.style.top = `${randomY}px`;
         noButton.style.transform = "none";
     }
 
-    // Escape when the mouse approaches
+
+    /* ========================================
+       DESKTOP INTERACTION
+    ======================================== */
+
     noButton.addEventListener("pointerenter", (event) => {
 
         if (event.pointerType === "mouse") {
@@ -54,8 +75,28 @@ export function initPage({ navigateTo }) {
 
     });
 
+
     /* ========================================
-       NO BUTTON: RESPECTFUL GOODBYE
+       MOBILE INTERACTION
+    ======================================== */
+
+    noButton.addEventListener("pointerdown", (event) => {
+
+        if (event.pointerType === "touch" && touchAttempts < maxTouchEscapes) {
+
+            touchAttempts++;
+
+            moveNoButton();
+
+            // Prevent the click during the first two attempts
+            event.preventDefault();
+        }
+
+    });
+
+
+    /* ========================================
+       NO BUTTON: GOODBYE
     ======================================== */
 
     noButton.addEventListener("click", () => {
@@ -63,6 +104,21 @@ export function initPage({ navigateTo }) {
         questionCard.hidden = true;
         goodbyeCard.hidden = false;
 
+        // Return the button to its normal position
+        noButton.style.position = "";
+        noButton.style.left = "";
+        noButton.style.top = "";
+        noButton.style.transform = "";
+
+    });
+
+
+    /* ========================================
+       RESTART EXPERIENCE
+    ======================================== */
+
+    restartButton.addEventListener("click", () => {
+        window.location.reload();
     });
 
 }

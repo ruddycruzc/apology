@@ -1,0 +1,195 @@
+
+/* ========================================
+   SURPRISE SCREEN
+======================================== */
+
+.surprise-card {
+    width: 100%;
+    max-width: 620px;
+    margin: auto;
+    padding: 3.5rem 2.5rem;
+
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-card);
+    text-align: center;
+
+    animation: fadeIn 0.6s ease forwards;
+}
+
+
+/* ========================================
+   CONTENT
+======================================== */
+
+.surprise-content {
+    margin-top: 1.5rem;
+}
+
+.surprise-icon {
+    display: block;
+    margin-bottom: 1.2rem;
+
+    color: var(--color-accent);
+    font-size: 2.8rem;
+}
+
+.surprise-content h1 {
+    margin-bottom: 1rem;
+    font-size: 2.2rem;
+}
+
+.surprise-content h2,
+.countdown-finished h2 {
+    margin-bottom: 1rem;
+    font-size: clamp(1.5rem, 5vw, 2rem);
+}
+
+.surprise-intro {
+    max-width: 440px;
+    margin: 0 auto 2rem;
+
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+
+/* ========================================
+   COUNTDOWN
+======================================== */
+
+.countdown {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.8rem;
+
+    margin: 2rem 0;
+}
+
+.countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+
+    padding: 1.2rem 0.5rem;
+
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.countdown-unit span {
+    color: var(--color-accent);
+    font-family: var(--font-heading);
+    font-size: clamp(1.8rem, 5vw, 2.7rem);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.countdown-unit small {
+    color: var(--color-muted);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+
+/* ========================================
+   ARRIVAL INFO
+======================================== */
+
+.arrival-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    margin-top: 1.5rem;
+
+    color: var(--color-muted);
+    font-size: 0.9rem;
+}
+
+.arrival-info strong {
+    color: var(--color-accent);
+    font-size: 1rem;
+}
+
+.surprise-message {
+    margin-top: 2rem;
+
+    color: var(--color-accent);
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-style: italic;
+}
+
+
+/* ========================================
+   COUNTDOWN FINISHED
+======================================== */
+
+.countdown-finished {
+    margin-top: 2rem;
+}
+
+.countdown-finished p {
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+
+/* ========================================
+   HIDDEN ELEMENTS
+======================================== */
+
+.surprise-card [hidden] {
+    display: none;
+}
+
+/* ========================================
+   RESTART BUTTON
+======================================== */
+
+.restart-button {
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 480px) {
+
+    .surprise-card {
+        padding: 2.5rem 1.2rem;
+        border-radius: var(--radius-md);
+    }
+
+    .surprise-content h1 {
+        font-size: 1.9rem;
+    }
+
+    .countdown {
+        gap: 0.4rem;
+    }
+
+    .countdown-unit {
+        padding: 1rem 0.2rem;
+        border-radius: var(--radius-sm);
+    }
+
+    .countdown-unit span {
+        font-size: 1.7rem;
+    }
+
+    .countdown-unit small {
+        font-size: 0.55rem;
+        letter-spacing: 0.5px;
+    }
+}
