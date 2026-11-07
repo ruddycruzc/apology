@@ -72,7 +72,91 @@ body {
 
     overflow-x: hidden;
 }
+/* ========================================
+   ANIMATED BACKGROUND
+======================================== */
 
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Floating particles */
+
+body::before {
+    background-image:
+        radial-gradient(circle, rgba(233, 185, 197, 0.65) 1.5px, transparent 2px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.9) 1.5px, transparent 2px),
+        radial-gradient(circle, rgba(141, 70, 92, 0.16) 1px, transparent 2px);
+
+    background-size:
+        130px 150px,
+        190px 210px,
+        250px 230px;
+
+    background-position:
+        0 0,
+        60px 80px,
+        120px 40px;
+
+    animation: particlesFloat 24s linear infinite;
+}
+
+/* Soft ambient glow */
+
+body::after {
+    background:
+        radial-gradient(
+            circle at 15% 25%,
+            rgba(233, 185, 197, 0.16),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 85% 75%,
+            rgba(233, 185, 197, 0.13),
+            transparent 40%
+        );
+
+    animation: ambientGlow 12s ease-in-out infinite alternate;
+}
+
+@keyframes particlesFloat {
+    from {
+        background-position:
+            0 0,
+            60px 80px,
+            120px 40px;
+    }
+
+    to {
+        background-position:
+            0 -300px,
+            60px -420px,
+            120px -230px;
+    }
+}
+
+@keyframes ambientGlow {
+    from {
+        opacity: 0.5;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Keep content above the background */
+
+.app,
+.footer {
+    position: relative;
+    z-index: 1;
+}
 
 /* ========================================
    4. GLOBAL ELEMENTS
