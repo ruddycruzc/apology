@@ -11,7 +11,6 @@
 ======================================== */
 
 :root {
-
     /* Colors */
     --color-bg: #FDF5F3;
     --color-primary: #E9B9C5;
@@ -48,7 +47,7 @@
 
 
 /* ========================================
-   3. RESET & GLOBAL STYLES
+   3. RESET
 ======================================== */
 
 * {
@@ -74,10 +73,27 @@ body {
     overflow-x: hidden;
 }
 
+
+/* ========================================
+   4. GLOBAL ELEMENTS
+======================================== */
+
+h1,
+h2,
+h3 {
+    font-family: var(--font-heading);
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+p {
+    line-height: 1.7;
+}
+
 button {
+    border: none;
     font: inherit;
     cursor: pointer;
-    border: none;
 }
 
 button:focus-visible {
@@ -97,36 +113,18 @@ a {
 
 
 /* ========================================
-   4. TYPOGRAPHY
-======================================== */
-
-h1,
-h2,
-h3 {
-    font-family: var(--font-heading);
-    font-weight: 500;
-    line-height: 1.2;
-}
-
-p {
-    line-height: 1.7;
-}
-
-
-/* ========================================
    5. APP LAYOUT
 ======================================== */
 
 .app {
+    position: relative;
     flex: 1;
     width: 100%;
     min-height: 100vh;
-    position: relative;
 }
 
 .screen {
     display: none;
-
     width: 100%;
     min-height: 100vh;
 
@@ -143,94 +141,11 @@ p {
 
 
 /* ========================================
-   6. LETTER SCREEN
-======================================== */
-
-.letter-card {
-    width: 100%;
-    max-width: 480px;
-
-    padding: 3.5rem 2rem;
-
-    background-color: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-
-    box-shadow: var(--shadow-card);
-
-    text-align: center;
-}
-
-
-/* Envelope */
-
-.letter-envelope {
-    width: 90px;
-    height: 90px;
-
-    margin: 0 auto 1.8rem;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background-color: var(--color-bg);
-    border-radius: 50%;
-}
-
-.envelope-icon {
-    font-size: 2.7rem;
-}
-
-
-/* Letter label */
-
-.letter-label {
-    display: block;
-
-    margin-bottom: 1.2rem;
-
-    color: var(--color-accent);
-
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    line-height: 1.6;
-}
-
-
-/* Letter heading */
-
-.letter-card h1 {
-    max-width: 360px;
-
-    margin: 0 auto 1.2rem;
-
-    font-size: clamp(2rem, 5vw, 2.7rem);
-}
-
-
-/* Letter paragraph */
-
-.letter-card p {
-    max-width: 370px;
-
-    margin: 0 auto 2rem;
-
-    color: var(--color-muted);
-
-    font-size: 0.95rem;
-    line-height: 1.8;
-}
-
-
-/* ========================================
-   7. BUTTONS
+   6. BUTTONS
 ======================================== */
 
 .btn {
     min-height: 50px;
-
     padding: 0.9rem 1.8rem;
 
     border-radius: var(--radius-full);
@@ -251,7 +166,6 @@ p {
     transform: translateY(0);
 }
 
-
 /* Primary button */
 
 .btn-primary {
@@ -263,14 +177,12 @@ p {
 
 .btn-primary:hover {
     background-color: var(--color-accent-hover);
-
     box-shadow: 0 9px 22px rgba(141, 70, 92, 0.2);
 }
 
 .btn-primary span {
     margin-left: 0.4rem;
 }
-
 
 /* Secondary button */
 
@@ -285,24 +197,21 @@ p {
 
 
 /* ========================================
-   8. FOOTER
+   7. FOOTER
 ======================================== */
 
 .footer {
     width: 100%;
-
     padding: 1.2rem 1rem;
 
     text-align: center;
 
     border-top: 1px solid var(--color-border);
-
     background-color: var(--color-bg);
 }
 
 .footer p {
     color: var(--color-muted);
-
     font-size: 0.75rem;
     letter-spacing: 0.3px;
 }
@@ -314,11 +223,10 @@ p {
 
 
 /* ========================================
-   9. ANIMATIONS
+   8. ANIMATIONS
 ======================================== */
 
 @keyframes fadeIn {
-
     from {
         opacity: 0;
         transform: translateY(12px);
@@ -332,35 +240,12 @@ p {
 
 
 /* ========================================
-   10. RESPONSIVE DESIGN
+   9. RESPONSIVE DESIGN
 ======================================== */
 
 @media (max-width: 480px) {
-
     .screen {
         padding: 1.2rem;
-    }
-
-    .letter-card {
-        padding: 2.8rem 1.5rem;
-        border-radius: var(--radius-md);
-    }
-
-    .letter-envelope {
-        width: 75px;
-        height: 75px;
-    }
-
-    .envelope-icon {
-        font-size: 2.3rem;
-    }
-
-    .letter-card h1 {
-        font-size: 2rem;
-    }
-
-    .letter-card p {
-        font-size: 0.9rem;
     }
 
     .btn {
@@ -378,11 +263,10 @@ p {
 
 
 /* ========================================
-   11. ACCESSIBILITY
+   10. ACCESSIBILITY
 ======================================== */
 
 @media (prefers-reduced-motion: reduce) {
-
     *,
     *::before,
     *::after {
@@ -390,25 +274,5 @@ p {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
-    }
-}
-
-/* ========================================
-   ENVELOPE ANIMATION
-======================================== */
-
-.envelope-icon {
-    font-size: 2.7rem;
-    animation: floating 3s ease-in-out infinite;
-}
-
-@keyframes floating {
-
-    0%, 100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-8px);
     }
 }

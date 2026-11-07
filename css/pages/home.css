@@ -1,0 +1,119 @@
+
+/* ========================================
+   HOME SCREEN
+======================================== */
+
+.letter-card {
+    width: 100%;
+    max-width: 480px;
+    padding: 3.5rem 2rem;
+
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-card);
+    text-align: center;
+}
+
+
+/* Envelope */
+
+.letter-envelope {
+    width: 90px;
+    height: 90px;
+
+    margin: 0 auto 1.8rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--color-bg);
+    border-radius: 50%;
+}
+
+.envelope-icon {
+    font-size: 2.7rem;
+    animation: floating 3s ease-in-out infinite;
+}
+
+
+/* Letter label */
+
+.letter-label {
+    display: block;
+    margin-bottom: 1.2rem;
+
+    color: var(--color-accent);
+
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 1.6;
+}
+
+
+/* Letter heading */
+
+.letter-card h1 {
+    max-width: 360px;
+    margin: 0 auto 1.2rem;
+
+    font-size: clamp(2rem, 5vw, 2.7rem);
+}
+
+
+/* Letter paragraph */
+
+.letter-card p {
+    max-width: 370px;
+    margin: 0 auto 2rem;
+
+    color: var(--color-muted);
+
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+
+/* Envelope animation */
+
+@keyframes floating {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 480px) {
+    .letter-card {
+        padding: 2.8rem 1.5rem;
+        border-radius: var(--radius-md);
+    }
+
+    .letter-envelope {
+        width: 75px;
+        height: 75px;
+    }
+
+    .envelope-icon {
+        font-size: 2.3rem;
+    }
+
+    .letter-card h1 {
+        font-size: 2rem;
+    }
+
+    .letter-card p {
+        font-size: 0.9rem;
+    }
+}

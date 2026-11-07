@@ -1,38 +1,117 @@
 
-// ========================================
-// 1. SCREEN NAVIGATION
-// ========================================
+/* ========================================
+   1. APP CONFIGURATION
+======================================== */
 
-// Seleccionamos todas las pantallas
-const screens = document.querySelectorAll(".screen");
+const appContent = document.getElementById("app-content");
 
-// Función para mostrar una pantalla
-function showScreen(screenId) {
+const pages = {
+    apology: {
+        html: "../pages/apology.html",
+        css: "../css/pages/apology.css",
+        js: "../js/pages/apology.js"
+    }
+};
 
-    // Ocultamos todas las pantallas
-    screens.forEach((screen) => {
-        screen.classList.remove("active");
+
+/* ========================================
+   2. LOAD PAGE STYLES
+======================================== */
+
+function loadPageStyles(cssPath) {
+
+    return new Promise((resolve, reject) => {
+
+        // Remove previous page styles
+        const previousStyles = document.getElementById("page-stylesheet");
+
+        if (previousStyles) {
+            previousStyles.remove();
+        }
+
+        // Create stylesheet link
+        const stylesheet = document.createElement("link");
+
+        stylesheet.id = "page-stylesheet";
+        stylesheet.rel = "stylesheet";
+        stylesheet.href = cssPath;
+
+        stylesheet.onload = resolve;
+
+        stylesheet.onerror = () => {
+            reject(new Error(`Could not load stylesheet: ${cssPath}`));
+        };
+
+        document.head.appendChild(stylesheet);
+
     });
 
-    // Mostramos la pantalla solicitada
-    const selectedScreen = document.getElementById(screenId);
-
-    if (selectedScreen) {
-        selectedScreen.classList.add("active");
-    }
 }
 
 
-// ========================================
-// 2. LETTER BUTTON
-// ========================================
+/* ========================================
+   3. LOAD PAGE CONTENT
+======================================== */
 
-// Seleccionamos el botón de abrir la carta
+async function navigateTo(pageName) {
+
+    const page = pages[pageName];
+
+    if (!page) {
+        console.error(`Page not found: ${pageName}`);
+        return;
+    }
+
+    try {
+
+        // Load HTML
+        const response = await fetch(page.html);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error: ${response.status}`);
+        }
+
+        const html = await response.text();
+
+        // Load page-specific CSS
+        await loadPageStyles(page.css);
+
+        // Insert HTML into the main container
+        appContent.innerHTML = html;
+
+        // Load page-specific JavaScript
+        const pageModule = await import(page.js);
+
+        // Initialize the page
+        pageModule.initPage({ navigateTo });
+
+    } catch (error) {
+
+        console.error("Error loading page:", error);
+
+        appContent.innerHTML = `
+            <section class="screen active">
+                <div class="letter-card">
+                    <h1>Ups...</h1>
+                    <p>No hemos podido cargar esta parte de la carta.</p>
+                    <button class="btn btn-primary" onclick="location.reload()">
+                        Volver a empezar
+                    </button>
+                </div>
+            </section>
+        `;
+
+    }
+
+}
+
+
+/* ========================================
+   4. INITIAL NAVIGATION
+======================================== */
+
 const openLetterButton = document.getElementById("open-letter");
 
-// Escuchamos el evento click
 openLetterButton.addEventListener("click", () => {
-
-    showScreen("screen-apology");
-
+    navigateTo("apology");
 });
