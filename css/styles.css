@@ -1,0 +1,394 @@
+
+/* ========================================
+   1. GOOGLE FONTS
+======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+
+/* ========================================
+   2. DESIGN TOKENS
+======================================== */
+
+:root {
+
+    /* Colors */
+    --color-bg: #FDF5F3;
+    --color-primary: #E9B9C5;
+    --color-accent: #8D465C;
+    --color-accent-hover: #71374A;
+    --color-text: #49383E;
+    --color-muted: #A58F96;
+    --color-white: #FFFFFF;
+    --color-border: #F0DDE1;
+
+    /* Typography */
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'DM Sans', sans-serif;
+
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+
+    /* Borders */
+    --radius-sm: 12px;
+    --radius-md: 20px;
+    --radius-lg: 28px;
+    --radius-full: 999px;
+
+    /* Shadows */
+    --shadow-card: 0 12px 40px rgba(141, 70, 92, 0.08);
+
+    /* Transitions */
+    --transition: 0.3s ease;
+}
+
+
+/* ========================================
+   3. RESET & GLOBAL STYLES
+======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    font-family: var(--font-body);
+    font-size: 16px;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+
+    overflow-x: hidden;
+}
+
+button {
+    font: inherit;
+    cursor: pointer;
+    border: none;
+}
+
+button:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 4px;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* ========================================
+   4. TYPOGRAPHY
+======================================== */
+
+h1,
+h2,
+h3 {
+    font-family: var(--font-heading);
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+p {
+    line-height: 1.7;
+}
+
+
+/* ========================================
+   5. APP LAYOUT
+======================================== */
+
+.app {
+    flex: 1;
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+}
+
+.screen {
+    display: none;
+
+    width: 100%;
+    min-height: 100vh;
+
+    justify-content: center;
+    align-items: center;
+
+    padding: var(--spacing-md);
+}
+
+.screen.active {
+    display: flex;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+
+/* ========================================
+   6. LETTER SCREEN
+======================================== */
+
+.letter-card {
+    width: 100%;
+    max-width: 480px;
+
+    padding: 3.5rem 2rem;
+
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-card);
+
+    text-align: center;
+}
+
+
+/* Envelope */
+
+.letter-envelope {
+    width: 90px;
+    height: 90px;
+
+    margin: 0 auto 1.8rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--color-bg);
+    border-radius: 50%;
+}
+
+.envelope-icon {
+    font-size: 2.7rem;
+}
+
+
+/* Letter label */
+
+.letter-label {
+    display: block;
+
+    margin-bottom: 1.2rem;
+
+    color: var(--color-accent);
+
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 1.6;
+}
+
+
+/* Letter heading */
+
+.letter-card h1 {
+    max-width: 360px;
+
+    margin: 0 auto 1.2rem;
+
+    font-size: clamp(2rem, 5vw, 2.7rem);
+}
+
+
+/* Letter paragraph */
+
+.letter-card p {
+    max-width: 370px;
+
+    margin: 0 auto 2rem;
+
+    color: var(--color-muted);
+
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+
+/* ========================================
+   7. BUTTONS
+======================================== */
+
+.btn {
+    min-height: 50px;
+
+    padding: 0.9rem 1.8rem;
+
+    border-radius: var(--radius-full);
+
+    font-weight: 600;
+
+    transition:
+        transform var(--transition),
+        background-color var(--transition),
+        box-shadow var(--transition);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+
+/* Primary button */
+
+.btn-primary {
+    background-color: var(--color-accent);
+    color: var(--color-white);
+
+    box-shadow: 0 6px 18px rgba(141, 70, 92, 0.15);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-accent-hover);
+
+    box-shadow: 0 9px 22px rgba(141, 70, 92, 0.2);
+}
+
+.btn-primary span {
+    margin-left: 0.4rem;
+}
+
+
+/* Secondary button */
+
+.btn-secondary {
+    background-color: var(--color-border);
+    color: var(--color-text);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-primary);
+}
+
+
+/* ========================================
+   8. FOOTER
+======================================== */
+
+.footer {
+    width: 100%;
+
+    padding: 1.2rem 1rem;
+
+    text-align: center;
+
+    border-top: 1px solid var(--color-border);
+
+    background-color: var(--color-bg);
+}
+
+.footer p {
+    color: var(--color-muted);
+
+    font-size: 0.75rem;
+    letter-spacing: 0.3px;
+}
+
+.footer strong {
+    color: var(--color-accent);
+    font-weight: 600;
+}
+
+
+/* ========================================
+   9. ANIMATIONS
+======================================== */
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ========================================
+   10. RESPONSIVE DESIGN
+======================================== */
+
+@media (max-width: 480px) {
+
+    .screen {
+        padding: 1.2rem;
+    }
+
+    .letter-card {
+        padding: 2.8rem 1.5rem;
+        border-radius: var(--radius-md);
+    }
+
+    .letter-envelope {
+        width: 75px;
+        height: 75px;
+    }
+
+    .envelope-icon {
+        font-size: 2.3rem;
+    }
+
+    .letter-card h1 {
+        font-size: 2rem;
+    }
+
+    .letter-card p {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .footer {
+        padding: 1rem 0.8rem;
+    }
+
+    .footer p {
+        font-size: 0.7rem;
+    }
+}
+
+
+/* ========================================
+   11. ACCESSIBILITY
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
