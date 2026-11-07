@@ -15,6 +15,11 @@ const pages = {
     css: "../css/pages/reflection.css",
     js: "../js/pages/reflection.js",
   },
+  question: {
+    html: "../pages/question.html",
+    css: "../css/pages/question.css",
+    js: "../js/pages/question.js",
+  },
 };
 
 /* ========================================

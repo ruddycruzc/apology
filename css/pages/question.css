@@ -1,0 +1,143 @@
+.question-card {
+    position: relative;
+
+    width: 100%;
+    max-width: 520px;
+    margin: auto;
+    padding: 3rem 2.5rem;
+
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-card);
+    text-align: center;
+
+    animation: fadeIn 0.5s ease forwards;
+}
+
+
+/* ========================================
+   QUESTION CONTENT
+======================================== */
+
+.question-content {
+    margin: 1.5rem 0 2rem;
+}
+
+.question-heart {
+    display: block;
+    margin-bottom: 1rem;
+
+    color: var(--color-accent);
+    font-size: 2.8rem;
+}
+
+.question-content h1 {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.question-content h2 {
+    margin-bottom: 1rem;
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    line-height: 1.3;
+}
+
+.question-content p,
+.goodbye-card p {
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+
+/* ========================================
+   QUESTION BUTTONS
+======================================== */
+
+.question-actions {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    min-height: 125px;
+}
+
+.question-actions .btn {
+    min-width: 175px;
+}
+
+#yes-button {
+    position: relative;
+    z-index: 1;
+}
+
+#no-button {
+    position: absolute;
+    top: 65px;
+    left: 50%;
+    z-index: 2;
+
+    transform: translateX(-50%);
+    white-space: nowrap;
+
+    transition:
+        left 0.2s ease,
+        top 0.2s ease,
+        background-color var(--transition);
+}
+
+
+/* ========================================
+   GOODBYE CARD
+======================================== */
+
+.goodbye-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.goodbye-card h1 {
+    font-size: clamp(1.8rem, 5vw, 2.4rem);
+}
+
+.goodbye-card .apology-signature {
+    align-self: flex-end;
+    margin-top: 1rem;
+}
+
+
+/* ========================================
+   HIDDEN ELEMENTS
+======================================== */
+
+.question-card[hidden],
+.goodbye-card[hidden] {
+    display: none;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 480px) {
+    .question-card {
+        padding: 2.5rem 1.5rem;
+        border-radius: var(--radius-md);
+    }
+
+    .question-content h1 {
+        font-size: 1.8rem;
+    }
+
+    .question-actions .btn {
+        min-width: 160px;
+    }
+}
